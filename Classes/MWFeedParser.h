@@ -77,6 +77,7 @@ typedef enum { FeedTypeUnknown, FeedTypeRSS, FeedTypeRSS1, FeedTypeAtom } FeedTy
 	NSMutableData *asyncData;
 	NSString *asyncTextEncodingName;
 	ConnectionType connectionType;
+    NSMutableDictionary *headers;
 	
 	// Parsing
 	ParseType feedParseType;
@@ -117,6 +118,8 @@ typedef enum { FeedTypeUnknown, FeedTypeRSS, FeedTypeRSS1, FeedTypeAtom } FeedTy
 // Set whether to download asynchronously or synchronously
 @property (nonatomic) ConnectionType connectionType;
 
+@property (nonatomic, retain) NSMutableDictionary *headers;
+
 // Whether parsing was stopped
 @property (nonatomic, readonly, getter=isStopped) BOOL stopped;
 
@@ -139,5 +142,7 @@ typedef enum { FeedTypeUnknown, FeedTypeRSS, FeedTypeRSS1, FeedTypeAtom } FeedTy
 
 // Returns the URL
 - (NSURL *)url;
+
+- (void)addRequestHeader:(NSString*) key value:(NSString*) value;
 
 @end

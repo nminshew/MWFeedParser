@@ -50,7 +50,7 @@
 
 // Properties
 @synthesize url, delegate;
-@synthesize urlConnection, asyncData, asyncTextEncodingName, connectionType;
+@synthesize urlConnection, asyncData, asyncTextEncodingName, connectionType, headers;
 @synthesize feedParseType, feedParser, currentPath, currentText, currentElementAttributes, item, info;
 @synthesize pathOfElementWithXHTMLType;
 @synthesize stopped, failed, parsing;
@@ -74,6 +74,9 @@
         [dateFormatterRFC3339 setLocale:en_US_POSIX];
         [dateFormatterRFC822 setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
         [dateFormatterRFC3339 setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+        
+        self.headers = [[[NSMutableDictionary alloc] init] retain];
+        
 		[en_US_POSIX release];
 		
 	}
@@ -109,6 +112,7 @@
 	[item release];
 	[info release];
 	[pathOfElementWithXHTMLType release];
+    self.headers = nil;
 	[super dealloc];
 }
 
@@ -159,6 +163,10 @@
 												  cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData 
 											  timeoutInterval:60];
 	[request setValue:@"MWFeedParser" forHTTPHeaderField:@"User-Agent"];
+    
+    for (NSString *key in [self.headers allKeys]) {
+        [request setValue:[self.headers valueForKey:key] forHTTPHeaderField:key];
+    }
 	
 	// Debug Log
 	MWLog(@"MWFeedParser: Connecting & downloading feed data");
@@ -385,6 +393,10 @@
 	
 }
 
+- (void)addRequestHeader:(NSString*) key value:(NSString*) value {
+    [self.headers setObject:value forKey:key];
+}
+
 #pragma mark -
 #pragma mark NSURLConnection Delegate (Async)
 
@@ -457,9 +469,9 @@
 		
 		// End tag or close
 		if (ELEMENT_IS_EMPTY(elementName)) {
-			[currentText appendFormat:@" />", elementName];
+			[currentText appendFormat:@" />"];
 		} else {
-			[currentText appendFormat:@">", elementName];
+			[currentText appendFormat:@">"];
 		}
 		
 		// Dont continue
@@ -606,7 +618,12 @@
 	if (currentText) {
 		
 		// Remove newlines and whitespace from currentText
-		NSString *processedText = [currentText stringByRemovingNewLinesAndWhitespace];
+        NSString *processedText;
+        if (![currentPath isEqualToString:@"/rss/channel/item/pubDate"]) {
+            processedText = [currentText stringByRemovingNewLinesAndWhitespace];
+        } else {
+            processedText = currentText;
+        }
 
 		// Process
 		switch (feedType) {
