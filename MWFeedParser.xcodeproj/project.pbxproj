@@ -422,6 +422,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fred Thal (KJESLNQ34Q)";
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = /tmp/MWFeedParserFramework.dst;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -442,6 +443,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "34A5B630-D086-4C3E-987C-2B71B9211B4E";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -454,6 +456,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fred Thal (KJESLNQ34Q)";
 				COPY_PHASE_STRIP = YES;
 				DSTROOT = /tmp/MWFeedParserFramework.dst;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -467,6 +470,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "34A5B630-D086-4C3E-987C-2B71B9211B4E";
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
 			};
